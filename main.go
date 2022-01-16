@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 )
 
 func readLine(s *bufio.Scanner, returnVal *string) {
@@ -15,7 +16,7 @@ func readLine(s *bufio.Scanner, returnVal *string) {
 func main() {
 	var websiteArr []Website
 
-	f, err := os.Open("files/test.txt")
+	f, err := os.Open("files/ksp2.txt")
 
 	if err != nil {
 		log.Fatal(err)
@@ -26,7 +27,8 @@ func main() {
 	scanner := bufio.NewScanner(f)
 
 	for scanner.Scan() {
-		if scanner.Text() == "Websites" {
+
+		if strings.Contains(scanner.Text(), "Websites") {
 			websiteArr = readWebsites(scanner)
 		}
 	}
