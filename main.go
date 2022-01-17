@@ -8,16 +8,25 @@ import (
 	"strings"
 )
 
+type toChange struct {
+	name string
+	url  string
+}
+
 func readLine(s *bufio.Scanner, returnVal *string) {
 	s.Scan()
 	*returnVal = s.Text()
 }
 
 func main() {
-	//	var websiteArr []Website
+	// might not need
+	var websiteArr []Website
 	var appsArr []Application
+	var needChange []toChange
 
-	f, err := os.Open("files/ksp2.txt")
+	delimiter := "," // TODO: to be specified by user
+
+	f, err := os.Open("files/ksp2.txt") // TODO: to be specified by user
 
 	if err != nil {
 		log.Fatal(err)
@@ -29,21 +38,23 @@ func main() {
 
 	for scanner.Scan() {
 
-		// if strings.Contains(scanner.Text(), "Websites") {
-		// 	websiteArr = readWebsites(scanner)
-		// }
+		if strings.Contains(scanner.Text(), "Websites") {
+			websiteArr = readWebsites(scanner)
+		}
 
 		if strings.Contains(scanner.Text(), "Applications") {
 			appsArr = readApps(scanner)
 		}
 	}
 
-	var tempToPrint string
-	for _, w := range appsArr {
-		tempToPrint = tempToPrint + w.toCSV(",") + "\n"
-	}
+	addWebsToFile(websiteArr, delimiter, &needChange)
+	addAppsToFile(appsArr, delimiter, &needChange)
 
-	fmt.Println(tempToPrint)
+	fmt.Println("The following account passwords need to be changed because they contain the delimiter:")
+
+	for index, entry := range needChange {
+		fmt.Printf("\t%d. %v -> %v\n", index+1, entry.name, entry.url)
+	}
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)

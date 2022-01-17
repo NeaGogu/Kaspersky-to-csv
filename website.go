@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"strings"
 )
 
@@ -56,4 +57,21 @@ func readWebsites(scanner *bufio.Scanner) []Website {
 	}
 
 	return websiteRet
+}
+
+func addWebsToFile(websites []Website, delimiter string, needChange *[]toChange) {
+
+	var tempToPrint string
+
+	for _, w := range websites {
+		if strings.Contains(w.password, delimiter) {
+			*needChange = append(*needChange, toChange{w.websiteName, w.url})
+			continue
+		}
+
+		// TODO: to be changed with adding to file
+		tempToPrint = tempToPrint + w.toCSV(delimiter) + "\n"
+	}
+
+	fmt.Println(tempToPrint)
 }

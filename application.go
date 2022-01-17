@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"strings"
 )
 
@@ -52,4 +53,21 @@ func readApps(scanner *bufio.Scanner) []Application {
 	}
 
 	return appRet
+}
+
+func addAppsToFile(apps []Application, delimiter string, needChange *[]toChange) {
+
+	var tempToPrint string
+
+	for _, a := range apps {
+		if strings.Contains(a.password, delimiter) {
+			*needChange = append(*needChange, toChange{a.application, ""})
+			continue
+		}
+
+		// TODO: to be changed with adding to file
+		tempToPrint = tempToPrint + a.toCSV(delimiter) + "\n"
+	}
+
+	fmt.Println(tempToPrint)
 }
