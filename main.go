@@ -14,7 +14,8 @@ func readLine(s *bufio.Scanner, returnVal *string) {
 }
 
 func main() {
-	var websiteArr []Website
+	//	var websiteArr []Website
+	var appsArr []Application
 
 	f, err := os.Open("files/ksp2.txt")
 
@@ -28,13 +29,17 @@ func main() {
 
 	for scanner.Scan() {
 
-		if strings.Contains(scanner.Text(), "Websites") {
-			websiteArr = readWebsites(scanner)
+		// if strings.Contains(scanner.Text(), "Websites") {
+		// 	websiteArr = readWebsites(scanner)
+		// }
+
+		if strings.Contains(scanner.Text(), "Applications") {
+			appsArr = readApps(scanner)
 		}
 	}
 
 	var tempToPrint string
-	for _, w := range websiteArr {
+	for _, w := range appsArr {
 		tempToPrint = tempToPrint + w.toCSV(",") + "\n"
 	}
 
