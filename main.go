@@ -27,11 +27,9 @@ func main() {
 	delimiter := "," // TODO: to be specified by user
 
 	f, err := os.Open("files/ksp2.txt") // TODO: to be specified by user
-
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	defer f.Close()
 
 	scanner := bufio.NewScanner(f)
@@ -48,7 +46,9 @@ func main() {
 	}
 
 	// write header to file
-	outputFile, err := os.OpenFile("FORMATTED.csv", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+
+	os.Remove("files/FORMATTED.csv") // delete the file if it exists
+	outputFile, err := os.OpenFile("files/FORMATTED.csv", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		log.Fatal(err)
 	}
