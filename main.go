@@ -47,9 +47,22 @@ func main() {
 		}
 	}
 
-	addWebsToFile(websiteArr, delimiter, &needChange)
-	addAppsToFile(appsArr, delimiter, &needChange)
+	// write header to file
+	outputFile, err := os.OpenFile("FORMATTED.csv", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+	if err != nil {
+		log.Fatal(err)
+	}
 
+	defer outputFile.Close()
+
+	outputFile.WriteString("App,name,url,username,password\n")
+
+	addWebsToFile(websiteArr, delimiter, &needChange, outputFile)
+	addAppsToFile(appsArr, delimiter, &needChange, outputFile)
+
+	outputFile.Sync()
+
+	// notify the user of what needs to be changed
 	fmt.Println("The following account passwords need to be changed because they contain the delimiter:")
 
 	for index, entry := range needChange {

@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -15,7 +16,7 @@ type Application struct {
 }
 
 func (a Application) toCSV(delimiter string) string {
-	return "Applications" + delimiter + a.application + delimiter + delimiter + a.login + delimiter + a.password
+	return "Applications" + delimiter + a.application + delimiter + delimiter + a.login + delimiter + a.password + "\n"
 }
 
 func readApps(scanner *bufio.Scanner) []Application {
@@ -55,9 +56,7 @@ func readApps(scanner *bufio.Scanner) []Application {
 	return appRet
 }
 
-func addAppsToFile(apps []Application, delimiter string, needChange *[]toChange) {
-
-	var tempToPrint string
+func addAppsToFile(apps []Application, delimiter string, needChange *[]toChange, outputFile *os.File) {
 
 	for _, a := range apps {
 		if strings.Contains(a.password, delimiter) {
@@ -65,9 +64,9 @@ func addAppsToFile(apps []Application, delimiter string, needChange *[]toChange)
 			continue
 		}
 
-		// TODO: to be changed with adding to file
-		tempToPrint = tempToPrint + a.toCSV(delimiter) + "\n"
-	}
+		outputFile.WriteString(a.toCSV(delimiter))
 
-	fmt.Println(tempToPrint)
+	}
+	fmt.Println("Apps added to", outputFile.Name())
+
 }

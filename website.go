@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -16,7 +17,7 @@ type Website struct {
 }
 
 func (w Website) toCSV(delimiter string) string {
-	return "Websites" + delimiter + w.websiteName + delimiter + w.url + delimiter + w.login + delimiter + w.password
+	return "Websites" + delimiter + w.websiteName + delimiter + w.url + delimiter + w.login + delimiter + w.password + "\n"
 }
 
 func readWebsites(scanner *bufio.Scanner) []Website {
@@ -59,9 +60,7 @@ func readWebsites(scanner *bufio.Scanner) []Website {
 	return websiteRet
 }
 
-func addWebsToFile(websites []Website, delimiter string, needChange *[]toChange) {
-
-	var tempToPrint string
+func addWebsToFile(websites []Website, delimiter string, needChange *[]toChange, outputFile *os.File) {
 
 	for _, w := range websites {
 		if strings.Contains(w.password, delimiter) {
@@ -69,9 +68,9 @@ func addWebsToFile(websites []Website, delimiter string, needChange *[]toChange)
 			continue
 		}
 
-		// TODO: to be changed with adding to file
-		tempToPrint = tempToPrint + w.toCSV(delimiter) + "\n"
-	}
+		outputFile.WriteString(w.toCSV(delimiter))
 
-	fmt.Println(tempToPrint)
+	}
+	fmt.Println("Websites added to", outputFile.Name())
+
 }
