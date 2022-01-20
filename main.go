@@ -24,9 +24,9 @@ func main() {
 	var appsArr []Application
 	var needChange []toChange
 
-	delimiter := "," // TODO: to be specified by user
+	Setup() // setup Source, Destination, Delimiter
 
-	f, err := os.Open("files/ksp2.txt") // TODO: to be specified by user
+	f, err := os.Open(SourcePath) // TODO: to be specified by user
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -47,23 +47,23 @@ func main() {
 
 	// write header to file
 
-	os.Remove("files/FORMATTED.csv") // delete the file if it exists
-	outputFile, err := os.OpenFile("files/FORMATTED.csv", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+	os.Remove(DestPath) // delete the file if it exists
+	outputFile, err := os.OpenFile(DestPath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	defer outputFile.Close()
 
-	outputFile.WriteString("App,name,url,username,password\n")
+	outputFile.WriteString("App" + Delimiter + "name" + Delimiter + "url" + Delimiter + "username" + Delimiter + "password\n")
 
-	addWebsToFile(websiteArr, delimiter, &needChange, outputFile)
-	addAppsToFile(appsArr, delimiter, &needChange, outputFile)
+	addWebsToFile(websiteArr, Delimiter, &needChange, outputFile)
+	addAppsToFile(appsArr, Delimiter, &needChange, outputFile)
 
 	outputFile.Sync()
 
 	// notify the user of what needs to be changed
-	fmt.Println("The following account passwords need to be changed because they contain the delimiter:")
+	fmt.Printf("The following account passwords need to be changed because they contain the Delimiter ( %v ):\n", Delimiter)
 
 	for index, entry := range needChange {
 		fmt.Printf("\t%d. %v -> %v\n", index+1, entry.name, entry.url)
