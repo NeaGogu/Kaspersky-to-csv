@@ -23,16 +23,26 @@ ___Almost every___ password manager allows you to export your valuable informati
 
 Clone the github project, `cd` into that directory and type the following:
 ```bash
-./kaspersky-to-csv -src passwords.txt -des KSP_parsed.csv
+./bin/ksp -src passwords.txt -des KSP_parsed.csv
+```
+
+Windows users have to use the following command:
+```bash
+./bin/ksp_win64.exe -src passwords.txt -des KSP_parsed.csv
+```
+
+MacOS users have to use the following command:
+```bash
+./bin/ksp_macos -src passwords.txt -des KSP_parsed.csv
 ```
 
 The `src` tag is required, the rest of the tags are optional. For usage help you can also use
 ```bash
-./kaspersky-to-csv --help
+./bin/ksp --help
 -------------------------------------------
 OUTPUT:
 
-Usage of ./kaspersky-to-csv:
+Usage of ./ksp:
   -delimiter string
         Delimiter in the CSV file (default ",")
   -des string
