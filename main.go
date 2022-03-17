@@ -13,11 +13,6 @@ type toChange struct {
 	url  string
 }
 
-func readLine(s *bufio.Scanner, returnVal *string) {
-	s.Scan()
-	*returnVal = s.Text()
-}
-
 func main() {
 	// might not need
 	var websiteArr []Website
@@ -26,7 +21,7 @@ func main() {
 
 	Setup() // setup Source, Destination, Delimiter
 
-	f, err := os.Open(SourcePath) // TODO: to be specified by user
+	f, err := os.Open(SourcePath)
 	if err != nil {
 		log.Fatal(err)
 	}
