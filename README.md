@@ -21,6 +21,8 @@ ___Almost every___ password manager allows you to export your valuable informati
 
 ## Usage
 
+>Disclaimer: Make sure your password file begins with the keyword `Websites` (should be present by default). Also, do not remove nor change any of the lines shown in the example above, otherwise the program might crash
+
 Clone the github project, `cd` into that directory and type the following:
 ```bash
 ./bin/ksp -src passwords.txt -des KSP_parsed.csv
@@ -50,3 +52,4 @@ Usage of ./ksp:
   -src string
         REQUIRED: Kaspersky Source file
 ```
+

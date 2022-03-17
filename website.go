@@ -30,29 +30,36 @@ func readWebsites(scanner *bufio.Scanner) []Website {
 			return websiteRet
 		}
 
-		if text == "" || text == "---" {
+		// if text == "" || text == "---" {
+		// 	continue
+		// }
+
+		if !strings.HasPrefix(text, "Website name") {
 			continue
 		}
 
 		website := Website{}
-		website.websiteName = text[strings.Index(text, ":")+2:]
+		website.websiteName = grabEntry(text)
 
 		readLine(scanner, &text)
-		website.url = text[strings.Index(text, ":")+2:]
+		website.url = grabEntry(text)
 
 		readLine(scanner, &text)
-		website.loginName = text[strings.Index(text, ":")+2:]
+		website.loginName = grabEntry(text)
 
 		readLine(scanner, &text)
-		website.login = text[strings.Index(text, ":")+2:]
+		website.login = grabEntry(text)
 
 		readLine(scanner, &text)
-		website.password = text[strings.Index(text, ":")+2:]
+		website.password = grabEntry(text)
 
 		readLine(scanner, &text)
-		website.comment = text[strings.Index(text, ":")+2:]
+		website.comment = grabEntry(text)
 
 		// append the website to the list of websites
+		// log.Printf("Appending the following website -> \n%v", website)
+		fmt.Println()
+
 		websiteRet = append(websiteRet, website)
 
 	}
